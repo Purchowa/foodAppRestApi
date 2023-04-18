@@ -1,7 +1,7 @@
 package com.example.foodAppRS.controller;
 
-import com.example.foodAppRS.entity.Account;
 import com.example.foodAppRS.entity.Fridge;
+import com.example.foodAppRS.exception.types.FridgeNotFoundException;
 import com.example.foodAppRS.repository.FridgeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +26,10 @@ public class FridgeController {
 
     @GetMapping("fridge/account/{id}")
     public List<Fridge> getFridgeByAccountID(@PathVariable(name="id") Integer id){
-        return fridgeRepository.findFridgeByUser_Id(id);
+        List<Fridge> fridgeList = fridgeRepository.findFridgeByUser_Id(id);
+        if (fridgeList.isEmpty()){
+            throw new FridgeNotFoundException("Not found: fridge/account/" + id);
+        }
+        return fridgeList;
     }
 }
