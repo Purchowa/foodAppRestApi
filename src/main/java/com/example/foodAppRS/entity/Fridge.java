@@ -3,13 +3,13 @@ package com.example.foodAppRS.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Data
 @Entity
 @Table(name = "fridge")
 public class Fridge { // Products in fridge
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 

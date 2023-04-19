@@ -1,6 +1,5 @@
 package com.example.foodAppRS.repository;
 
-import com.example.foodAppRS.entity.Account;
 import com.example.foodAppRS.entity.Fridge;
 import org.springframework.data.jpa.repository.JpaRepository;
 
