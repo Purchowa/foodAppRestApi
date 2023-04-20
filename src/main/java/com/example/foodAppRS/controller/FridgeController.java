@@ -4,7 +4,7 @@ import com.example.foodAppRS.entity.Account;
 import com.example.foodAppRS.entity.Fridge;
 import com.example.foodAppRS.entity.Product;
 import com.example.foodAppRS.entity.dto.FridgeDTO;
-import com.example.foodAppRS.exception.types.FridgeNotFoundException;
+import com.example.foodAppRS.exception.type.ResourceNotFoundException;
 import com.example.foodAppRS.repository.AccountRepository;
 import com.example.foodAppRS.repository.FridgeRepository;
 import com.example.foodAppRS.repository.ProductRepository;
@@ -34,9 +34,9 @@ public class FridgeController {
 
     @GetMapping("fridge/account/{id}")
     public List<Fridge> getFridgeByAccountID(@PathVariable(name="id") Integer id){
-        List<Fridge> fridgeList = fridgeRepository.findFridgeByUser_Id(id);
+        List<Fridge> fridgeList = fridgeRepository.findFridgeByAccount_Id(id);
         if (fridgeList.isEmpty()){
-            throw new FridgeNotFoundException("Not found: fridge/account/" + id);
+            throw new ResourceNotFoundException("not found: " + id);
         }
         return fridgeList;
     }
@@ -50,15 +50,16 @@ public class FridgeController {
             product.setName(fridgeDTO.productName());
             productRepository.save(product);
         }
-        Optional<Account> user = accountRepository.findById(fridgeDTO.accountID());
-        if (user.isEmpty()){
-            throw new RuntimeException("Lol"); // TODO: UserNotFoundException
+        Optional<Account> account = accountRepository.findById(fridgeDTO.accountID());
+        if (account.isEmpty()){
+            throw new ResourceNotFoundException("account not found: " + fridgeDTO.accountID());
         }
         Fridge fridge = new Fridge();
-        fridge.setUser(user.get());
+        fridge.setAccount(account.get());
         fridge.setProduct(product);
         fridge.setExpirationDate(fridgeDTO.expirationDate());
         fridgeRepository.save(fridge);
-        return fridge; // Exception
+
+        return fridge; // TODO: Better or different response
     }
 }

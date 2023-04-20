@@ -1,6 +1,6 @@
 package com.example.foodAppRS.exception;
 
-import com.example.foodAppRS.exception.types.FridgeNotFoundException;
+import com.example.foodAppRS.exception.type.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,7 +27,7 @@ public class CustomREEH extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(FridgeNotFoundException.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     public final ResponseEntity<Object> handleFridgeNotFound(Exception ex, WebRequest webRequest){
         ExceptionResponse exceptionResponse= new ExceptionResponse(
                 new Date(),

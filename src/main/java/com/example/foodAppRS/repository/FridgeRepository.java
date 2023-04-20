@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface FridgeRepository extends JpaRepository<Fridge, Integer> {
-    public List<Fridge> findFridgeByUser_Id(Integer id);
+    public List<Fridge> findFridgeByAccount_Id(Integer id);
 }

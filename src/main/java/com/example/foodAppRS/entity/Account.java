@@ -9,10 +9,10 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "account")
-public class Account {
+public class Account { // TODO: Post for account
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accSeq")
+    @SequenceGenerator(name="accSeq", initialValue = 150, allocationSize = 1)
     @Column(name="id", unique = true, nullable = false)
     private Integer id;
 
@@ -28,6 +28,6 @@ public class Account {
     private String password;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "account")
     private List<Fridge> fridgeList;
 }

@@ -12,15 +12,15 @@ import java.util.List;
 @Entity
 @Table(name = "product")
 public class Product {
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dummySeq")
-    @SequenceGenerator(name = "dummySeq", initialValue = 3)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodSeq")
+    @SequenceGenerator(name = "prodSeq", initialValue = 150, allocationSize = 1)
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @JsonIgnore
+    @JsonIgnore // TODO: Test if orphanRemoval would delete the Fridge entry or just set the Product to null
     @OneToMany(mappedBy = "product") // mappedBy refers to property name!
     private List<Fridge> fridgeList;
 }
