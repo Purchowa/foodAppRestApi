@@ -1,31 +1,35 @@
 package com.example.foodAppRS.controller;
 
 import com.example.foodAppRS.entity.Account;
+import com.example.foodAppRS.entity.dto.AccountDTO;
 import com.example.foodAppRS.repository.AccountRepository;
+import com.example.foodAppRS.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class AccountController {
-    private final AccountRepository accountRepository;
+    private final AccountService accountService;
 
     @Autowired
-    public AccountController(AccountRepository inj){
-        this.accountRepository = inj;
+    public AccountController(AccountService accountService){
+        this.accountService = accountService;
     }
 
-    @GetMapping("account")
-    public List<Account> getAllAccounts(){
-        return (List<Account>)accountRepository.findAll();
+    @GetMapping("accounts")
+    public List<AccountDTO> getAllAccounts(){
+        return accountService.selectAccounts();
+    }
+
+    @PostMapping("account")
+    public AccountDTO createNewAccount(Account account) {
+        return accountService.createNewAccount(account);
     }
 
     @DeleteMapping("account/{id}")
     public void deleteAccountByID(@PathVariable(name = "id") Integer id){
-        accountRepository.deleteById(id);
+        accountService.deleteAccountById(id);
     }
 }

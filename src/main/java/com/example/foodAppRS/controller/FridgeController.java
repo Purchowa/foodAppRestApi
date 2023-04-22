@@ -4,10 +4,11 @@ import com.example.foodAppRS.entity.Account;
 import com.example.foodAppRS.entity.Fridge;
 import com.example.foodAppRS.entity.Product;
 import com.example.foodAppRS.entity.dto.FridgeDTO;
+import com.example.foodAppRS.entity.dto.ProductDTO;
 import com.example.foodAppRS.exception.type.ResourceNotFoundException;
-import com.example.foodAppRS.repository.AccountRepository;
-import com.example.foodAppRS.repository.FridgeRepository;
-import com.example.foodAppRS.repository.ProductRepository;
+import com.example.foodAppRS.service.AccountService;
+import com.example.foodAppRS.service.FridgeService;
+import com.example.foodAppRS.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,50 +16,58 @@ import java.util.*;
 
 @RestController
 public class FridgeController {
-    private final FridgeRepository fridgeRepository;
-    private final ProductRepository productRepository;
-    private final AccountRepository accountRepository;
+//    private final FridgeRepository fridgeRepository;
+//    private final ProductRepository productRepository;
+//    private final AccountRepository accountRepository;
+    private final FridgeService fridgeService;
+    private final ProductService productService;
+    private final AccountService accountService;
 
     @Autowired
-    public FridgeController(FridgeRepository fRep, ProductRepository pRep, AccountRepository aRep){
-        this.fridgeRepository = fRep;
-        this.productRepository = pRep;
-        this.accountRepository = aRep;
+    public FridgeController(FridgeService fridgeService,
+                            ProductService productService,
+                            AccountService accountService){
+        this.fridgeService = fridgeService;
+        this.productService = productService;
+        this.accountService = accountService;
     }
 
     // GET
     @GetMapping("fridge")
-    public List<Fridge> getEveryFridge(){
-        return fridgeRepository.findAll();
+    public List<FridgeDTO> getAllFridges(){
+        return fridgeService.selectAllFridges();
     }
 
-    @GetMapping("fridge/account/{id}")
-    public List<Fridge> getFridgeByAccountID(@PathVariable(name="id") Integer id){
-        List<Fridge> fridgeList = fridgeRepository.findFridgeByAccount_Id(id);
-        if (fridgeList.isEmpty()){
+    @GetMapping("fridge/account/{id}") // TODO ja bym dał "account/{id}/fridge"
+    public Optional<Fridge> getFridgeByAccountID(@PathVariable(name="id") Integer id){
+        Optional<Fridge> fridge = fridgeService.selectFridgeById(id);
+        if (fridge.isEmpty()){
             throw new ResourceNotFoundException("not found: " + id);
         }
-        return fridgeList;
+        return fridge;
     }
 
     // POST
     @PostMapping("fridge")
-    public Fridge addProductToFridge(@RequestBody FridgeDTO fridgeDTO){ // Maybe I should do a service class?
-        Product product = productRepository.findByNameIgnoreCase(fridgeDTO.productName());
-        if (product == null){
+    public Fridge addProductToFridge(@RequestBody Product product){ // Maybe I should do a service class?
+        Optional<Fridge> fridgeOpt = fridgeService.selectFridgeById(product.getId());
+        if (fridgeOpt.isEmpty()){
             product = new Product();
-            product.setName(fridgeDTO.productName());
-            productRepository.save(product);
+            product.setId(product.getId());
+            product.setName(product.getName());
+            ProductDTO productDTO = productService.addProductToFridge(product);
         }
-        Optional<Account> account = accountRepository.findById(fridgeDTO.accountID());
+        Optional<Account> account = accountService.selectAccountById(fridgeOpt.get().getId());
         if (account.isEmpty()){
-            throw new ResourceNotFoundException("account not found: " + fridgeDTO.accountID());
+            throw new ResourceNotFoundException("account not found: " + account.get().getId());
         }
         Fridge fridge = new Fridge();
+
         fridge.setAccount(account.get());
         fridge.setProduct(product);
-        fridge.setExpirationDate(fridgeDTO.expirationDate());
-        fridgeRepository.save(fridge);
+        fridge.setExpirationDate(fridge.getExpirationDate());
+
+        fridgeService.addToFridge(fridge);
 
         return fridge; // TODO: Better or different response
     }
