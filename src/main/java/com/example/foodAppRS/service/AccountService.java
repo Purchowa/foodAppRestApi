@@ -33,16 +33,16 @@ public class AccountService { // TODO moze bedzie jeszcze potrzeba pozostalych r
     public AccountDTO createNewAccount(Account account) {
 
         Account toSave = new Account();
-        toSave.setId(account.getId());
-        toSave.setFirstName(account.getFirstName());
-        toSave.setUserName(account.getUserName());
-        toSave.setPassword(account.getPassword());
-        toSave.setFridgeList(account.getFridgeList());
+        account.setId(account.getId());
+        account.setFirstName(account.getFirstName());
+        account.setUserName(account.getUserName());
+        account.setPassword(account.getPassword());
+        account.setFridgeList(account.getFridgeList());
 
-        accountRepository.save(toSave);
+        accountRepository.save(account);
 
-        return new AccountDTO(toSave.getFirstName(),
-                toSave.getUserName());
+        return new AccountDTO(account.getFirstName(),
+                account.getUserName());
 
     }
 

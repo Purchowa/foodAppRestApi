@@ -1,4 +1,4 @@
-package com.example.foodAppRS;
+package com.example.foodAppRS.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;

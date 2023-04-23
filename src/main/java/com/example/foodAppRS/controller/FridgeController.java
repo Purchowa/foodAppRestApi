@@ -38,7 +38,7 @@ public class FridgeController {
         return fridgeService.selectAllFridges();
     }
 
-    @GetMapping("fridge/account/{id}") // TODO ja bym dał "account/{id}/fridge"
+    @GetMapping("fridge/account/{id}") // TODO ja bym dał "account/{id}/fridge" - tu pobiera na podstawie id fridge a nie account
     public Optional<Fridge> getFridgeByAccountID(@PathVariable(name="id") Integer id){
         Optional<Fridge> fridge = fridgeService.selectFridgeById(id);
         if (fridge.isEmpty()){

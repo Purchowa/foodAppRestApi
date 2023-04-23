@@ -3,6 +3,7 @@ package com.example.foodAppRS.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import java.util.List;
 
@@ -22,12 +23,11 @@ public class Account { // TODO: Post for account
     @Column(name="username", unique = true, nullable = false)
     private String userName;
 
-    @JsonIgnore
     @Basic
     @Column(name="password", nullable = false)
     private String password;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "account")
     private List<Fridge> fridgeList;
 }

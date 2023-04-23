@@ -24,7 +24,7 @@ public class AccountController {
     }
 
     @PostMapping("account")
-    public AccountDTO createNewAccount(Account account) {
+    public AccountDTO createNewAccount(@RequestBody Account account) {
         return accountService.createNewAccount(account);
     }
 
