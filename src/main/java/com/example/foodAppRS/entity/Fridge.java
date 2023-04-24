@@ -13,7 +13,7 @@ import java.util.Date;
 public class Fridge {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fridgeSeq")
     @SequenceGenerator(name = "fridgeSeq", initialValue = 150, allocationSize = 1)
-    @Column(name = "id", unique = true)
+    @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
     @Column(name = "expiration_date")

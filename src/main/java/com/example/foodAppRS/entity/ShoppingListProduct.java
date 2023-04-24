@@ -9,7 +9,7 @@ import lombok.Data;
 public class ShoppingListProduct {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shoppingSeq")
     @SequenceGenerator(name = "shoppingSeq", initialValue = 150, allocationSize = 1)
-    @Column(name = "id", unique = true)
+    @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
     @ManyToOne
@@ -20,7 +20,7 @@ public class ShoppingListProduct {
     @JoinColumn(name = "product_id")
     private Product productId;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
 }

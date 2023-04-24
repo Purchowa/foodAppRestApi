@@ -55,16 +55,14 @@ public class FridgeController {
 
     // POST
     @PostMapping("fridge")
-    public Product addProductToFridge(@RequestBody FridgeDTO fridgeDTO){
+    public FridgeDTO addProductToFridge(@RequestBody FridgeDTO fridgeDTO){
         Product product = productRepository.findByNameIgnoreCase(fridgeDTO.productName());
         if (product == null){
             product = new Product();
             product.setName(fridgeDTO.productName());
             productRepository.save(product);
         }
-
-        return product;
-        /*Optional<Account> account = accountRepository.getAccountByUserName(fridgeDTO.username());
+        Optional<Account> account = accountRepository.getAccountByUserName(fridgeDTO.username());
         if (account.isEmpty()){
             throw new ResourceNotFoundException("account not found: " + fridgeDTO.username());
         }
@@ -74,6 +72,6 @@ public class FridgeController {
         fridge.setExpirationDate(fridgeDTO.expirationDate());
         fridgeRepository.save(fridge);
 
-        return new FridgeDTO(fridge.getAccount().getUserName(), fridge.getProduct().getName(), fridge.getExpirationDate());*/
+        return new FridgeDTO(fridge.getAccount().getUserName(), fridge.getProduct().getName(), fridge.getExpirationDate());
     }
 }
