@@ -1,8 +1,6 @@
 package com.example.foodAppRS.controller;
 
-import com.example.foodAppRS.entity.Account;
 import com.example.foodAppRS.entity.dto.AccountDTO;
-import com.example.foodAppRS.repository.AccountRepository;
 import com.example.foodAppRS.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +10,7 @@ import java.util.List;
 @RestController
 public class AccountController {
     private final AccountService accountService;
+
 
     @Autowired
     public AccountController(AccountService accountService){
@@ -24,8 +23,8 @@ public class AccountController {
     }
 
     @PostMapping("account")
-    public AccountDTO createNewAccount(@RequestBody Account account) {
-        return accountService.createNewAccount(account);
+    public AccountDTO createNewAccount(@RequestBody AccountDTO accountDto) {
+        return accountService.createNewAccount(accountDto);
     }
 
     @DeleteMapping("account/{id}")

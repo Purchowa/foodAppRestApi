@@ -10,6 +10,6 @@ public class AccountDTOMapper implements Function<Account, AccountDTO> {
     @Override
     public AccountDTO apply(Account account) {
         return new AccountDTO(account.getFirstName(),
-                account.getUserName());
+                account.getUserName(), account.getPassword());
     }
 }
