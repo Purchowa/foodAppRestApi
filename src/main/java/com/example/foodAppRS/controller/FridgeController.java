@@ -72,6 +72,12 @@ public class FridgeController {
         fridge.setExpirationDate(fridgeDTO.expirationDate());
         fridgeRepository.save(fridge);
 
-        return new FridgeDTO(fridge.getAccount().getUserName(), fridge.getProduct().getName(), fridge.getExpirationDate());
+        return new FridgeDTO(fridge.getId(), fridge.getAccount().getUserName(), fridge.getProduct().getName(), fridge.getExpirationDate());
+    }
+
+    // DELTE
+    @DeleteMapping("fridge/{id}")
+    public void deleteFridgeItemByID(@PathVariable(name = "id") Integer id){
+        fridgeRepository.deleteById(id);
     }
 }
