@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "account")
-public class Account { // TODO: Post for account
+public class Account {
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accSeq")
     @SequenceGenerator(name="accSeq", initialValue = 150, allocationSize = 1)
@@ -24,9 +24,8 @@ public class Account { // TODO: Post for account
     private String userName;
 
     @JsonIgnore
-    @Basic
     @Column(name="password", nullable = false)
-    private String password;
+    private char[] password;
 
 
     @JsonIgnore

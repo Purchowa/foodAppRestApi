@@ -7,12 +7,11 @@ import com.example.foodAppRS.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccountService { // TODO moze bedzie jeszcze potrzeba pozostalych repository (fridge, product)
@@ -34,20 +33,10 @@ public class AccountService { // TODO moze bedzie jeszcze potrzeba pozostalych r
     }
 
     public AccountDTO createNewAccount(AccountDTO accountDTO) {
-        String hashPassword = "";
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA256");
-            byte[] hash = messageDigest.digest(accountDTO.password().getBytes(StandardCharsets.UTF_8));
-            hashPassword = Base64.getEncoder().encodeToString(hash);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
         Account account = new Account();
         account.setFirstName(accountDTO.name());
         account.setUserName(accountDTO.username());
-        account.setPassword(hashPassword);
-
-        System.out.println(account.getPassword());
+        account.setPassword(msgDigestSHA256(accountDTO.password()).toCharArray());
 
         accountRepository.save(account);
         return new AccountDTO(account.getFirstName(),
@@ -60,4 +49,26 @@ public class AccountService { // TODO moze bedzie jeszcze potrzeba pozostalych r
         accountRepository.delete(account.get());
     }
 
+    public String msgDigestSHA256(char[] msg){
+        String hashMsg = "";
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA256");
+            byte[] hash = messageDigest.digest(charaTobytea(msg)); // if string here then String::getBytes
+            hashMsg = HexFormat.of().formatHex(hash);
+            // hashMsg = Base64.getEncoder().encodeToString(hash); // Plain text
+            Arrays.fill(hash, (byte)0);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        return hashMsg;
+    }
+
+    private byte[] charaTobytea(char[] input){
+        byte[] out = new byte[input.length];
+        for (int i = 0; i < input.length; i++){
+            out[i] = (byte)input[i];
+        }
+        return out;
+    }
 }

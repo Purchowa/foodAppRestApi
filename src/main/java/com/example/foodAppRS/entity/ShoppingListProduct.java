@@ -12,15 +12,14 @@ public class ShoppingListProduct {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Account userId;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product productId;
-
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private Account account;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
 }
