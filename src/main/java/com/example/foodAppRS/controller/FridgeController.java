@@ -44,13 +44,13 @@ public class FridgeController {
         return fridgeRepository.findAll().stream().map(fridgeDTOMapper).toList();
     }
 
-    @GetMapping("fridge/account/{id}") // TODO ja bym dał "account/{id}/fridge" - tu pobiera na podstawie id fridge a nie account
-    public Optional<Fridge> getFridgeByAccountID(@PathVariable(name="id") Integer id){
-        Optional<Fridge> fridge = fridgeRepository.findById(id);
-        if (fridge.isEmpty()){
-            throw new ResourceNotFoundException("not found: " + id);
+    @GetMapping("fridge/account/{username}") // TODO ja bym dał "account/{id}/fridge" - tu pobiera na podstawie id fridge a nie account
+    public List<FridgeDTO> getFridgeByAccountUsername(@PathVariable(name="username") String username){
+        List<Fridge> fridgeList = fridgeRepository.findFridgeByAccount_UserName(username);
+        if (fridgeList.isEmpty()){
+            throw new ResourceNotFoundException("not found: " + username);
         }
-        return fridge;
+        return fridgeList.stream().map(fridgeDTOMapper).toList();
     }
 
     // POST
