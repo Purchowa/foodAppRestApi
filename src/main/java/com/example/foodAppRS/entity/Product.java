@@ -14,7 +14,7 @@ import java.util.List;
 public class Product {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodSeq")
     @SequenceGenerator(name = "prodSeq", initialValue = 150, allocationSize = 1)
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "id", unique = true)
     private Integer id;
 
     @Column(name = "name", unique = true, nullable = false)

@@ -14,7 +14,7 @@ public class Account { // TODO: Post for account
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accSeq")
     @SequenceGenerator(name="accSeq", initialValue = 150, allocationSize = 1)
-    @Column(name="id", unique = true, nullable = false)
+    @Column(name="id", unique = true)
     private Integer id;
 
     @Column(name="first_name", nullable = false)
@@ -23,11 +23,13 @@ public class Account { // TODO: Post for account
     @Column(name="username", unique = true, nullable = false)
     private String userName;
 
+    @JsonIgnore
     @Basic
     @Column(name="password", nullable = false)
     private String password;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "account")
     private List<Fridge> fridgeList;
 }

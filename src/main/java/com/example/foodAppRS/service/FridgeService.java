@@ -28,7 +28,7 @@ public class FridgeService {
                 .toList();
     }
 
-    public Optional<Fridge> selectFridgeById(Integer id) {
+    /*public Optional<Fridge> selectFridgeById(Integer id) {
         return Optional.of(fridgeRepository.findById(id)).get();
     }
 
@@ -36,5 +36,5 @@ public class FridgeService {
         Fridge save = fridgeRepository.save(fridge);
         return new FridgeDTO(save.getProduct().getName(),
                 save.getExpirationDate());
-    }
+    }*/
 }

@@ -16,7 +16,7 @@ public class Fridge {
     @Column(name = "id", unique = true)
     private Integer id;
 
-    @Column(name = "expiration_date", nullable = false)
+    @Column(name = "expiration_date")
     @Temporal(TemporalType.DATE)
     private Date expirationDate;
 

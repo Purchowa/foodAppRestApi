@@ -8,7 +8,7 @@ import java.util.function.Function;
 public class FridgeDTOMapper implements Function<Fridge, FridgeDTO> {
     @Override
     public FridgeDTO apply(Fridge fridge) {
-        return new FridgeDTO(fridge.getProduct().getName(),
+        return new FridgeDTO(fridge.getAccount().getUserName(), fridge.getProduct().getName(),
                 fridge.getExpirationDate());
     }
 }

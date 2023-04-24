@@ -51,7 +51,4 @@ public class AccountService { // TODO moze bedzie jeszcze potrzeba pozostalych r
         accountRepository.delete(account.get());
     }
 
-    public Optional<Account> selectAccountById(Integer id) {
-        return Optional.of(accountRepository.findById(id)).get();
-    }
 }

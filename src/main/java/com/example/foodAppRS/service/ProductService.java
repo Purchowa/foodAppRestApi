@@ -15,8 +15,12 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public ProductDTO findByNameIgnoreCase(String productName) {
-        return productRepository.findByName(productName);
+    public Product findByNameIgnoreCase(String productName) {
+        return productRepository.findByNameIgnoreCase(productName);
+    }
+
+    public void saveProduct(Product product){
+        productRepository.save(product);
     }
 
     public ProductDTO addProductToFridge(Product product) {
