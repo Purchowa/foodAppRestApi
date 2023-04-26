@@ -9,6 +9,9 @@ import java.util.function.Function;
 public class ShoppingListProductMapper implements Function<ShoppingListProduct, ShoppingListProductDTO> {
     @Override
     public ShoppingListProductDTO apply(ShoppingListProduct shoppingListProduct) {
-        return new ShoppingListProductDTO(shoppingListProduct.getQuantity());
+        return new ShoppingListProductDTO(shoppingListProduct.getId(),
+                shoppingListProduct.getAccount().getUsername(),
+                shoppingListProduct.getProduct().getName(),
+                shoppingListProduct.getQuantity());
     }
 }
