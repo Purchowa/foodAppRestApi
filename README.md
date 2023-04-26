@@ -13,4 +13,4 @@
 ### Database
 - RDB - PostgreSQL
 ## Note
-Project doesn't contain application.properties.
+Project doesn't contain application.properties. You should set `app.datasource.jdbcUrl=` `app.datasource.username=` and `app.datasource.password=`
