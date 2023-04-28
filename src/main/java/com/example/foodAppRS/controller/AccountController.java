@@ -30,8 +30,9 @@ public class AccountController {
     }
 
     @GetMapping("account/validate")
-    public Boolean validateCredential(@RequestBody AccountDTO accountDTO) {
-        return accountService.validateCredentials(accountDTO);
+    public Boolean validateCredential(@RequestParam(name = "username") String username,
+                                      @RequestParam(name = "password") String password) {
+        return accountService.validateCredentials(username, password);
     }
 
     @PostMapping("account")

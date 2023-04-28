@@ -49,7 +49,8 @@ public class AccountService { // TODO moze bedzie jeszcze potrzeba pozostalych r
         accountRepository.delete(account.get());
     }
 
-    public Boolean validateCredentials(AccountDTO accountDTO) {
+    public Boolean validateCredentials(String username, String password) {
+        AccountDTO accountDTO = new AccountDTO("", username, password.toCharArray());
         Boolean doesExistUsername = accountRepository.existsAccountByUsername(accountDTO.username());
 
         if (doesExistUsername) {
