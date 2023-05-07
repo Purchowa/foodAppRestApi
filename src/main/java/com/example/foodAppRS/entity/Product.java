@@ -2,9 +2,7 @@ package com.example.foodAppRS.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class Product {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @JsonIgnore // TODO: Test if orphanRemoval would delete the Fridge entry or just set the Product to null
+    @JsonIgnore
     @OneToMany(mappedBy = "product") // mappedBy refers to property name!
     private List<Fridge> fridgeList;
 }

@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Service
-public class AccountService { // TODO moze bedzie jeszcze potrzeba pozostalych repository (fridge, product)
+public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountDTOMapper accountDTOMapper;
 
