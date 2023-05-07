@@ -1,5 +1,5 @@
 ### SAFETY ###
-src/main/resources/application.properties
+# src/main/resources/application.properties
 
 HELP.md
 target/
