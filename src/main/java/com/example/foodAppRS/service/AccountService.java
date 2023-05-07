@@ -7,14 +7,12 @@ import com.example.foodAppRS.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Service
-public class AccountService { // TODO moze bedzie jeszcze potrzeba pozostalych repository (fridge, product)
+public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountDTOMapper accountDTOMapper;
 

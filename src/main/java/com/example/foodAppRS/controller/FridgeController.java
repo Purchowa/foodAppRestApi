@@ -5,14 +5,10 @@ import com.example.foodAppRS.entity.Fridge;
 import com.example.foodAppRS.entity.Product;
 import com.example.foodAppRS.entity.dto.FridgeDTO;
 import com.example.foodAppRS.entity.dto.FridgeDTOMapper;
-import com.example.foodAppRS.entity.dto.ProductDTO;
 import com.example.foodAppRS.exception.type.ResourceNotFoundException;
 import com.example.foodAppRS.repository.AccountRepository;
 import com.example.foodAppRS.repository.FridgeRepository;
 import com.example.foodAppRS.repository.ProductRepository;
-import com.example.foodAppRS.service.AccountService;
-import com.example.foodAppRS.service.FridgeService;
-import com.example.foodAppRS.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +40,7 @@ public class FridgeController {
         return fridgeRepository.findAll().stream().map(fridgeDTOMapper).toList();
     }
 
-    @GetMapping("fridge/account/{username}") // TODO ja bym dał "account/{id}/fridge" - tu pobiera na podstawie id fridge a nie account
+    @GetMapping("fridge/account/{username}")
     public List<FridgeDTO> getFridgeByAccountUsername(@PathVariable(name="username") String username){
         List<Fridge> fridgeList = fridgeRepository.findFridgeByAccount_UserName(username);
         if (fridgeList.isEmpty()){
