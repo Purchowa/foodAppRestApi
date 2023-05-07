@@ -1,5 +1,6 @@
 package com.example.foodAppRS.controller;
 
+import com.example.foodAppRS.entity.Account;
 import com.example.foodAppRS.entity.dto.AccountDTO;
 import com.example.foodAppRS.repository.AccountRepository;
 import com.example.foodAppRS.service.AccountService;
@@ -16,29 +17,28 @@ public class AccountController {
 
     @Autowired
     public AccountController(AccountService accountService,
-                             AccountRepository accountRepository){
+                             AccountRepository accountRepository) {
         this.accountService = accountService;
         this.accountRepository = accountRepository;
     }
 
-    @GetMapping("account")
-    public List<AccountDTO> getAllAccounts(){
+    @GetMapping("accounts")
+    public List<AccountDTO> getAllAccounts() {
         return accountService.selectAccounts();
     }
 
     @GetMapping("account/validate")
-    public Boolean validateCredential(@RequestBody AccountDTO accountDTO){
-        return accountRepository.existsAccountByUserName(accountDTO.username())
-                && accountRepository.existsAccountByPassword(accountService.msgDigestSHA256(accountDTO.password()).toCharArray());
+    public Boolean validateCredential(@RequestBody AccountDTO accountDTO) {
+        return accountService.validateCredentials(accountDTO);
     }
 
     @PostMapping("account")
-    public AccountDTO createNewAccount(@RequestBody AccountDTO accountDto) {
+    public Boolean createNewAccount(@RequestBody AccountDTO accountDto) {
         return accountService.createNewAccount(accountDto);
     }
 
     @DeleteMapping("account/{id}")
-    public void deleteAccountByID(@PathVariable(name = "id") Integer id){
+    public void deleteAccountByID(@PathVariable(name = "id") Integer id) {
         accountService.deleteAccountById(id);
     }
 }

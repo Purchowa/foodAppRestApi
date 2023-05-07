@@ -35,18 +35,19 @@ public class FridgeController {
     }
 
     // GET
-    @GetMapping("fridge")
+    @GetMapping("fridges")
     public List<FridgeDTO> getAllFridges(){
         return fridgeRepository.findAll().stream().map(fridgeDTOMapper).toList();
     }
 
     @GetMapping("fridge/account/{username}")
     public List<FridgeDTO> getFridgeByAccountUsername(@PathVariable(name="username") String username){
-        List<Fridge> fridgeList = fridgeRepository.findFridgeByAccount_UserName(username);
+        List<Fridge> fridgeList = fridgeRepository.findFridgeByAccount_Username(username);
         if (fridgeList.isEmpty()){
-            throw new ResourceNotFoundException("not found: " + username);
+            //throw new ResourceNotFoundException("not found: " + username);
+            return List.of();
         }
-        return fridgeList.stream().map(fridgeDTOMapper).toList();
+          return fridgeList.stream().map(fridgeDTOMapper).toList();
     }
 
     // POST
@@ -58,7 +59,7 @@ public class FridgeController {
             product.setName(fridgeDTO.productName());
             productRepository.save(product);
         }
-        Optional<Account> account = accountRepository.getAccountByUserName(fridgeDTO.username());
+        Optional<Account> account = accountRepository.getAccountByUsername(fridgeDTO.username());
         if (account.isEmpty()){
             throw new ResourceNotFoundException("account not found: " + fridgeDTO.username());
         }
@@ -68,8 +69,9 @@ public class FridgeController {
         fridge.setExpirationDate(fridgeDTO.expirationDate());
         fridgeRepository.save(fridge);
 
-        return new FridgeDTO(fridge.getId(), fridge.getAccount().getUserName(), fridge.getProduct().getName(), fridge.getExpirationDate());
+        return new FridgeDTO(fridge.getId(), fridge.getAccount().getUsername(), fridge.getProduct().getName(), fridge.getExpirationDate());
     }
+
 
     // DELETE
     @DeleteMapping("fridge/{id}")

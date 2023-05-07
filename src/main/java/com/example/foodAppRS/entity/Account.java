@@ -21,7 +21,7 @@ public class Account {
     private String firstName;
 
     @Column(name="username", unique = true, nullable = false)
-    private String userName;
+    private String username;
 
     @JsonIgnore
     @Column(name="password", nullable = false)

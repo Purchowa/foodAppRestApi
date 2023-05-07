@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -17,8 +18,8 @@ public class Fridge {
     private Integer id;
 
     @Column(name = "expiration_date")
-    @Temporal(TemporalType.DATE)
-    private Date expirationDate;
+    //@Temporal(TemporalType.DATE)
+    private String expirationDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

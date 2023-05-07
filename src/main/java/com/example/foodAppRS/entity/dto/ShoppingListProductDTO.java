@@ -1,5 +1,7 @@
 package com.example.foodAppRS.entity.dto;
 
-public record ShoppingListProductDTO(Integer quantity) {
+import java.util.Date;
+
+public record ShoppingListProductDTO(Integer id, String username, String productName, Integer quantity) {
 
 }

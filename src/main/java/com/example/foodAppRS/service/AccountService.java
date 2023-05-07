@@ -30,15 +30,17 @@ public class AccountService {
                 .toList();
     }
 
-    public AccountDTO createNewAccount(AccountDTO accountDTO) {
+    public Boolean createNewAccount(AccountDTO accountDTO) {
         Account account = new Account();
+        if(accountRepository.existsAccountByUsername(accountDTO.username())) {
+            return false;
+        }
         account.setFirstName(accountDTO.name());
-        account.setUserName(accountDTO.username());
+        account.setUsername(accountDTO.username());
         account.setPassword(msgDigestSHA256(accountDTO.password()).toCharArray());
 
         accountRepository.save(account);
-        return new AccountDTO(account.getFirstName(),
-                account.getUserName(), account.getPassword());
+        return true;
 
     }
 
@@ -47,14 +49,27 @@ public class AccountService {
         accountRepository.delete(account.get());
     }
 
-    public String msgDigestSHA256(char[] msg){
+    public Boolean validateCredentials(AccountDTO accountDTO) {
+        Boolean doesExistUsername = accountRepository.existsAccountByUsername(accountDTO.username());
+
+        if (doesExistUsername) {
+            Account repositoryAccount = accountRepository.findByUsername(accountDTO.username());
+            char[] hashedRepoPassword = repositoryAccount.getPassword();
+            char[] hashedDtoPassword = msgDigestSHA256(accountDTO.password()).toCharArray();
+            return Arrays.equals(hashedRepoPassword, hashedDtoPassword);
+        }
+
+        return false;
+    }
+
+    public String msgDigestSHA256(char[] msg) {
         String hashMsg = "";
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA256");
             byte[] hash = messageDigest.digest(charaTobytea(msg)); // if string here then String::getBytes
             hashMsg = HexFormat.of().formatHex(hash);
-            // hashMsg = Base64.getEncoder().encodeToString(hash); // Plain text
-            Arrays.fill(hash, (byte)0);
+            //hashMsg = Base64.getEncoder().encodeToString(hash); // Plain text
+            Arrays.fill(hash, (byte) 0);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -62,10 +77,10 @@ public class AccountService {
         return hashMsg;
     }
 
-    private byte[] charaTobytea(char[] input){
+    private byte[] charaTobytea(char[] input) {
         byte[] out = new byte[input.length];
-        for (int i = 0; i < input.length; i++){
-            out[i] = (byte)input[i];
+        for (int i = 0; i < input.length; i++) {
+            out[i] = (byte) input[i];
         }
         return out;
     }
